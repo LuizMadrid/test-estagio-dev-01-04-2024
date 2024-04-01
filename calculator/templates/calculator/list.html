@@ -14,5 +14,23 @@ TODO: You must provide 2 selects to filter the rows based in:
  2) consumption range
  - You must create the filter functionality in the front-end using JS
 -->
+
+    <div>
+    
+        <h1>teste</h1>
+    
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Savings</th>
+            </tr>
+        {% for consumer in consumers %}
+            <tr>
+                <td>{{ consumer.name }}</td>
+                <td>{{ consumer.savings }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
 </body>
 </html>

@@ -1,17 +1,31 @@
 from django.shortcuts import render
 
+from calculator.models import DiscountRules
+from .models import Consumer
+
 # TODO: Your list view should do the following tasks
 """
--> Recover all consumers from the database
+-> Recover all consumers from the database --nao consegui
 -> Get the discount value for each consumer
--> Calculate the economy
+-> Calculate the economy --tentei
 -> Send the data to the template that will be rendered
 """
 
 
+def calculate_savings(consumer):
+    average = consumer.consumption
+    rule = DiscountRules.objects.get(consumer_type=consumer.tax_type, consumption_range=average)
+    discount = rule.discount_value * rule.cover_value * average * consumer.distributor_tax
+    return discount
+
+
 def view1(request):
     # Create the first view here.
-    pass
+    consumers = Consumer.objects.all()
+    for consumer in consumers:
+        consumer.savings = calculate_savings(consumer)
+        consumer.save()
+    return render(request, 'calculator/list.html', {'consumers': consumers})
 
 
 # TODO: Your create view should do the following tasks

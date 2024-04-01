@@ -7,7 +7,71 @@ def calculator(consumption: list, distributor_tax: float, tax_type: str) -> tupl
     applied_discount = 0
     coverage = 0
 
-    # your code here #
+    # ↓ code here #
+
+    total_sum = 0
+    discount = 0
+
+    for i in consumption:
+        total_sum += i
+
+    average = total_sum / len(consumption)
+
+    if average < 10000:  # Se consumo for menor que 10.000 kWh
+        coverage = 0.90  # Cobertura de 90%
+
+        if tax_type == "Residencial":
+            applied_discount = 0.18
+            discount = applied_discount * coverage * average * distributor_tax
+
+        elif tax_type == "Comercial":
+            applied_discount = 0.16
+            discount = applied_discount * coverage * average * distributor_tax
+
+        elif tax_type == "Industrial":
+            applied_discount = 0.12
+            discount = applied_discount * coverage * average * distributor_tax
+
+    elif average > 20000:  # Se consumo for maior que 20.000 kWh
+        coverage = 0.99  # Cobertura de 99%
+
+        if tax_type == "Residencial":
+            applied_discount = 0.25
+            discount = applied_discount * coverage * average * distributor_tax
+
+        elif tax_type == "Comercial":
+            applied_discount = 0.22
+            discount = applied_discount * coverage * average * distributor_tax
+
+        elif tax_type == "Industrial":
+            applied_discount = 0.18
+            discount = applied_discount * coverage * average * distributor_tax
+
+    else:  # Se consumo for entre 10.000 e 20.000 kWh
+        coverage = 0.95  # Cobertura de 95%
+
+        if tax_type == "Residencial":
+            applied_discount = 0.22
+            discount = applied_discount * coverage * average * distributor_tax
+
+        elif tax_type == "Comercial":
+            applied_discount = 0.18
+            discount = applied_discount * coverage * average * distributor_tax
+
+        elif tax_type == "Industrial":
+            applied_discount = 0.15
+            discount = applied_discount * coverage * average * distributor_tax
+
+    monthly_savings = discount
+    annual_savings = discount * 12
+
+    print("You saved R$", round(annual_savings, 2), "per year")
+    print("You saved R$", round(monthly_savings, 2), "per month")
+    print("Applied discount:", applied_discount)
+    print("Coverage:", coverage)
+    print("")
+
+    # ↑ code here #
 
     return (
         round(annual_savings, 2),
